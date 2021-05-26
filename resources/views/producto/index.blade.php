@@ -1,15 +1,45 @@
 @extends('producto.layout')
 @section('content')
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Buscar producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Busqueda:</label>
+            <input type="text" class="form-control" id="recipient-search">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="search-information" class="btn btn-primary">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <div class="row">
-        <div class="col-lg-12 margin-tb">
+        <div class="col-lg-6 margin-tb">
             <div class="pull-left">
                 <h2>Listado de productos</h2>
             </div>
             <div class="pull-right py-4">
                 <a class="btn btn-success" href="{{ route('productos.create') }}"> Crear nuevo producto</a>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" >Buscar</button>
             </div>
         </div>
+
     </div>
+
+
    
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
@@ -49,7 +79,6 @@
             @endif
             <td>
                 <form class="d-flex justify-content-center" action="{{ route('productos.destroy',$t->id) }}" method="POST">
-    
                     <a class="btn btn-primary mx-2" href="{{ route('productos.edit',$t->id) }}">Editar</a>
    
                     @csrf
@@ -62,5 +91,27 @@
     </table>
     </div>
     {!! $tabla_uno->links() !!}
-      
+<script>
+$(document).on('click','#search-information',function(e){
+    let search_field = $('#recipient-search').val();
+    if(search_field==''){
+        return swal('El campo de busqueda no puede estar vacio');
+    }
+    $.ajax({
+        type:'get',
+        url:'/api/search/'+search_field,
+        dataType:'json',
+        success:function(data){
+            if(data.result==0){
+                $('#recipient-search').val('');
+                swal('No se encontraron resultados para tu busqueda')
+            }else{
+                swal('Producto encontrado').then((value) => {
+                    window.location.href = '/productos/'+data.result;
+                });
+            }
+        }
+    });
+});
+</script>
 @endsection

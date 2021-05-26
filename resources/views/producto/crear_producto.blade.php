@@ -84,7 +84,8 @@
 <script>
 function myFunction() {
     var unidades_vendidas= document.getElementsByName("unidades_vendidas")[0].value;
-    var precio_unitario = document.getElementsByName("unidades_vendidas")[0].value;
+    var precio_unitario = document.getElementsByName("precio_unitario")[0].value;
+    console.log('uv',unidades_vendidas,'pu',precio_unitario);
     document.getElementsByName('ventas')[0].value = unidades_vendidas*precio_unitario;
 }
 </script>

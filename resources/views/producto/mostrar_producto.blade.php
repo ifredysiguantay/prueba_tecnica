@@ -1,21 +1,5 @@
 @extends('producto.layout')
 @section('content')
-<style>
-.image-product{
-    width: 200px;
-    height: 200px;
-    -webkit-border-radius: 200px;
-    -webkit-background-clip: padding-box;
-    -moz-border-radius: 200px;
-    -moz-background-clip: padding;
-    border-radius: 200px;
-    background-clip: padding-box;
-    margin: 7px 0 0 5px;
-   /*float: left;*/
-    background-size: cover;
-    background-position: center center;
-}
-</style>
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -30,32 +14,58 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-                <strong>Imagen:</strong>
-                <div class="image-product" style="background-image: url({{ route('images.displayImage',$producto->imagen) }})"></div>
+            </div>
+            <div class="form-group">
+                <strong>Tipo de producto:</strong>
+                {{ $tabla_uno->tipo_de_producto }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Nombre de producto:</strong>
+                {{ $tabla_uno->tipo_de_producto }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Precio unitario:</strong>
+                {{ $tabla_uno->precio_unitario }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Fecha precio:</strong>
+                {{$tabla_uno->fecha_precio}}
+            </div>
+        </div>
 
-            </div>
-            <div class="form-group">
-                <strong>Nombre:</strong>
-                {{ $producto->nombre }}
-            </div>
-        </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Descripcion:</strong>
-                {{ $producto->descripcion }}
+                <strong>Fecha ingreso a bodega:</strong>
+                {{$tabla_dos[0]->fecha_ingreso_bodega}}
             </div>
         </div>
+
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Precio:</strong>
-                {{ $producto->precio }}
+                <strong>Unidades vendidas:</strong>
+                {{$tabla_tres[0]->unidades_vendidas}}
             </div>
         </div>
+
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Fecha de Expiracion:</strong>
-                {{ $producto->fechadeexpiracion }}
+                <strong>Ventas:</strong>
+                {{$tabla_tres[0]->unidades_vendidas *  $tabla_uno->precio_unitario}}
             </div>
         </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Ultima semana con unidades vendidas:</strong>
+                {{$tabla_tres[0]->numero_semana}}
+            </div>
+        </div>
+
     </div>
 @endsection

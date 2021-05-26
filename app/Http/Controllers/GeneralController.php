@@ -7,6 +7,7 @@ use App\Models\TablaUno;
 use App\Models\TablaDos;
 use App\Models\TablaTres;
 use Redirect;
+use Illuminate\Support\Facades\DB;
 class GeneralController extends Controller
 {
     public function index()
@@ -69,11 +70,13 @@ class GeneralController extends Controller
 
      */
 
-    public function show(Product $product)
+    public function show(Request $request, $id)
 
     {
-
-        return view('producto.show',compact('product'));
+        $tabla_uno = TablaUno::find($id);
+        $tabla_dos = TablaDos::where('product_name',$id)->get();
+        $tabla_tres = TablaTres::where('product_name',$id)->get();
+        return view('producto.mostrar_producto',compact('tabla_uno','tabla_dos','tabla_tres'));
 
     } 
 
@@ -85,17 +88,20 @@ class GeneralController extends Controller
 
      *
 
-     * @param  \App\Product  $product
-
+     * @param  \App\TablaUno  $tabla_uno
+     * @param  \App\TablaDos  $tabla_dos
+     * @param  \App\TablaTres $tabla_tres
      * @return \Illuminate\Http\Response
 
      */
 
-    public function edit(Product $product)
+    public function edit(Request $request, $id)
 
     {
-
-        return view('producto.edit',compact('product'));
+        $tabla_uno = TablaUno::find($id);
+        $tabla_dos = TablaDos::where('product_name',$id)->get();
+        $tabla_tres = TablaTres::where('product_name',$id)->get();
+        return view('producto.editar_producto',compact('tabla_uno','tabla_dos','tabla_tres'));
 
     }
 
@@ -115,27 +121,28 @@ class GeneralController extends Controller
 
      */
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
 
     {
 
-        $request->validate([
+        $tabla_uno = TablaUno::find($id);
+        $tabla_uno->tipo_de_producto = $request->input('tipo_producto');
+        $tabla_uno->nombre_producto = $request->input('nombre_producto');
+        $tabla_uno->precio_unitario = $request->input('precio_unitario');
+        $tabla_uno->fecha_precio =$request->input('fecha_precio');
+        $tabla_uno->save();
 
-            'name' => 'required',
+        $tabla_dos = TablaDos::where('product_name',$id)
+        ->update(['fecha_ingreso_bodega'=>$request->input('fecha_bodega')]);
 
-            'detail' => 'required',
-
+        $tabla_tres = TablaTres::where('product_name',$id)
+        ->update(['unidades_vendidas'=>$request->input('unidades_vendidas'),
+                  'numero_semana'=> $request->input('ultima_semana_unidades_vendidas')
         ]);
 
     
-
-        $product->update($request->all());
-
-    
-
-        return redirect()->route('producto.index')
-
-                        ->with('success','Product updated successfully');
+        return redirect()->route('productos.index')
+        ->with('success','Producto Actualizado correctamente');
 
     }
 
@@ -165,5 +172,11 @@ class GeneralController extends Controller
 
                         ->with('success','Product deleted successfully');
 
+    }
+
+    public function search($data){
+        $search = DB::table('table_one')->where('tipo_de_producto','LIKE',$data)->orWhere('nombre_producto','LIKE',$data)->get();
+        $result = count($search) ? $search[0]->id:0;
+        return response()->json(['result'=>$result]);
     }
 }
