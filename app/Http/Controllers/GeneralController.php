@@ -45,7 +45,7 @@ class GeneralController extends Controller
 
         $tabla_tres = new TablaTres;
         $tabla_tres->product_name = $tabla_uno->id;
-        $tabla_tres->unidades_vendidas=$request->input('unidades_vendidas');
+        $tabla_tres->unidades_vendidas=$request->input('ventas');
         $tabla_tres->numero_semana=$request->input('ultima_semana_unidades_vendidas');
         $tabla_tres->save();
         

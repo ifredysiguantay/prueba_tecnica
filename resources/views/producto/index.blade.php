@@ -79,6 +79,7 @@
             @endif
             <td>
                 <form class="d-flex justify-content-center" action="{{ route('productos.destroy',$t->id) }}" method="POST">
+                    <a class="btn btn-secondary mx-2" href="/products_chart/{{$t->id}}">Grafica</a>
                     <a class="btn btn-primary mx-2" href="{{ route('productos.edit',$t->id) }}">Editar</a>
    
                     @csrf

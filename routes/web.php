@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::resource('productos','GeneralController');
+Route::get('products_chart/{id}', 'ProductsChartController@index');
