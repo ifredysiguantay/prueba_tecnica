@@ -75,6 +75,13 @@ window.onload = function() {
                 }
 
             },
+            scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 50
+                        }
+                    }]
+                },
 
             responsive: true,
 
