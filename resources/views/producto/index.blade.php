@@ -33,6 +33,7 @@
             </div>
             <div class="pull-right py-4">
                 <a class="btn btn-success" href="{{ route('productos.create') }}"> Crear nuevo producto</a>
+                <a class="btn btn-danger" target="_blank" href="http://127.0.0.1:9000/charts/"> Proyecciones</a>
                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" >Buscar</button>
             </div>
         </div>
